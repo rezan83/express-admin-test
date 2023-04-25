@@ -174,7 +174,6 @@ const loginUser = async (req: Request, res: Response) => {
         message: 'email/password does not match'
       });
     }
-
     (req.session as any).userId  = user._id
 
     return res.status(200).json({
@@ -194,17 +193,30 @@ const loginUser = async (req: Request, res: Response) => {
 };
 const userProfile = (req: Request, res: Response) => {
   try {
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Profile returned'
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+};
+const admin = (req: Request, res: Response) => {
+  try {
+    return res.status(200).json({
+      message: 'Admin returned'
+    });
+  } catch (error) {
+    return res.status(500).json({
       message: error.message
     });
   }
 };
 const logoutUser = (req: Request, res: Response) => {
   try {
+    req.session.destroy(()=>{})
+    res.clearCookie('user_session')
     res.status(200).json({
       message: 'logout successful'
     });
@@ -241,6 +253,7 @@ export {
   loginUser,
   logoutUser,
   userProfile,
+  admin,
   fetchOneUser,
   deleteOneUser,
   updateOneUser
