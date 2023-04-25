@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-
 export interface IUserFiles {
   image?: Buffer | undefined;
 }
@@ -34,7 +33,10 @@ const userSchema = new Schema<IUser>({
     trim: true,
     lowercase: true,
     required: true,
-    validate: { validator: v => /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/.test(v) }
+    validate: {
+      validator: v => /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/.test(v),
+      message: 'not a valid email'
+    }
   },
   phone: {
     type: Number,
